@@ -6,6 +6,7 @@
         android:id="@+id/menu_item_account_list_add"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_add"
         android:title="@string/title_menu_item_add"/>
 
 </menu>
