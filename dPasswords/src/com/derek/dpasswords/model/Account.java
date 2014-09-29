@@ -3,45 +3,45 @@ package com.derek.dpasswords.model;
 import java.util.Date;
 
 public class Account {
-	private String mAccountId;
-	private String mAccountName;
-	private String mUsername;
-	private byte[] mEncryptedPassword;
+	private String accountId;
+	private String accountName;
+	private String username;
+	private String encryptedPassword;
 	private Date mDateCreated;
 
 	public Account() {
 	}
 
 	public String getAccountId() {
-		return mAccountId;
+		return accountId;
 	}
 
 	public void setAccountId(String accountId) {
-		mAccountId = accountId;
+		this.accountId = accountId;
 	}
 
 	public String getAccountName() {
-		return mAccountName;
+		return accountName;
 	}
 
 	public void setAccountName(String accountName) {
-		mAccountName = accountName;
+		this.accountName = accountName;
 	}
 
 	public String getUsername() {
-		return mUsername;
+		return username;
 	}
 
 	public void setUsername(String username) {
-		mUsername = username;
+		this.username = username;
 	}
 
-	public byte[] getEncryptedPassword() {
-		return mEncryptedPassword;
+	public String getEncryptedPassword() {
+		return encryptedPassword;
 	}
 
-	public void setEncryptedPassword(byte[] encryptedPassword) {
-		mEncryptedPassword = encryptedPassword;
+	public void setEncryptedPassword(String encryptedPassword) {
+		this.encryptedPassword = encryptedPassword;
 	}
 
 	public Date getDateCreated() {

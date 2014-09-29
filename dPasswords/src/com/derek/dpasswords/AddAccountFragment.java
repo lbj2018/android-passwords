@@ -1,6 +1,9 @@
 package com.derek.dpasswords;
 
+import java.util.UUID;
+
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,21 +14,22 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.derek.dpasswords.model.AESUtil;
+import com.derek.dpasswords.model.AES;
 import com.derek.dpasswords.model.AccountStore;
+import com.derek.dpasswords.model.User;
+import com.derek.dpasswords.model.WebServices;
 
 public class AddAccountFragment extends Fragment {
 	private EditText mAccountNameEditText;
 	private EditText mUsernameEditText;
 	private EditText mPasswordEditText;
-	private String mPassword;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
-		mPassword = "369288";
+		// mPassword = "369288";
 	}
 
 	@Override
@@ -53,14 +57,24 @@ public class AddAccountFragment extends Fragment {
 			String password = mPasswordEditText.getText().toString();
 
 			if (check(accountName, username, password)) {
-				try {
-					byte[] encryptedPassword = AESUtil.encrypt(mPassword, password);
-					AccountStore.get(getActivity()).addAccount(accountName, username, encryptedPassword);
 
-					getActivity().finish();
-				} catch (Exception e) {
-					e.printStackTrace();
+				User user = AccountStore.get(getActivity()).getUser();
+				if (user != null) {
+					String accoungId = UUID.randomUUID().toString();
+					AES aes = new AES(user.getPassword());
+					String encryptedPassword = aes.encrypt(password);
+					new addAccountTask().execute(accoungId, accountName, username, encryptedPassword);
 				}
+				// try {
+				// byte[] encryptedPassword = AESUtil.encrypt(mPassword,
+				// password);
+				// AccountStore.get(getActivity()).addAccount(accountName,
+				// username, encryptedPassword);
+				//
+				// getActivity().finish();
+				// } catch (Exception e) {
+				// e.printStackTrace();
+				// }
 			}
 			return true;
 		}
@@ -81,5 +95,33 @@ public class AddAccountFragment extends Fragment {
 			return false;
 		}
 		return true;
+	}
+
+	private class addAccountTask extends AsyncTask<String, Void, String> {
+		private String accountId;
+		private String accountName;
+		private String username;
+		private String password;
+
+		@Override
+		protected String doInBackground(String... params) {
+			if (params.length == 4) {
+				this.accountId = params[0];
+				this.accountName = params[1];
+				this.username = params[2];
+				this.password = params[3];
+
+				User user = AccountStore.get(getActivity()).getUser();
+
+				return WebServices.addAccount(this.accountId, this.accountName, this.username, this.password,
+						user.getUserId());
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+
+		}
 	}
 }

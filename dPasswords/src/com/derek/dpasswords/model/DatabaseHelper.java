@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// create the "account" table
-		db.execSQL("create table account (account_id text, account_name text, username text, encrypted_password blob, date_created integer)");
+		db.execSQL("create table account (account_id text, account_name text, username text, encrypted_password text, date_created integer)");
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			account.setAccountId(getString(getColumnIndex(COLUMN_ACCOUNT_ID)));
 			account.setAccountName(getString(getColumnIndex(COLUMN_ACCOUNT_NAME)));
 			account.setUsername(getString(getColumnIndex(COLUMN_ACCOUNT_USERNAME)));
-			account.setEncryptedPassword(getBlob(getColumnIndex(COLUMN_ACCOUNT_ENCRYPTED_PASSWORD)));
+			account.setEncryptedPassword(getString(getColumnIndex(COLUMN_ACCOUNT_ENCRYPTED_PASSWORD)));
 			account.setDateCreated(new Date(getLong(getColumnIndex(COLUMN_ACCOUNT_DATE_CREATED))));
 
 			return account;

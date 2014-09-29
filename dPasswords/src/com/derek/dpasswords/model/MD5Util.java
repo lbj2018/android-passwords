@@ -3,7 +3,7 @@ package com.derek.dpasswords.model;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class StringUtil {
+public class MD5Util {
 
 	public static final String md5(final String s) {
 		final String MD5 = "MD5";
