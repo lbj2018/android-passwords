@@ -16,12 +16,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 public class WebServices {
-	// private static final String BASE_URL =
-	// "http://121.199.0.190:8080/dPasswords/";
+	private static final String BASE_URL = "http://121.199.0.190:8080/dPasswords/";
 
 	// private static final String BASE_URL =
 	// "http://192.168.232.149:8080/dPasswords/";
-	private static final String BASE_URL = "http://192.168.1.2:8080/dPasswords/";
+	// private static final String BASE_URL =
+	// "http://192.168.1.2:8080/dPasswords/";
 
 	// private static final String BASE_URL =
 	// "http://localhost:8080/dPasswords/";

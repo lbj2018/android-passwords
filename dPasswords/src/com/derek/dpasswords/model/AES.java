@@ -59,6 +59,9 @@ public class AES {
 			plaintextBytes = plaintext.getBytes("UTF8");
 			byte[] ciphertext = encrypt(CIPHERMODEPADDING, skforAES, IV, plaintextBytes);
 			String base64_ciphertext = Base64Encoder.encode(ciphertext);
+
+			base64_ciphertext = base64_ciphertext.replace("+", "-");
+
 			return base64_ciphertext;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -67,6 +70,7 @@ public class AES {
 	}
 
 	public String decrypt(String ciphertext_base64) {
+		ciphertext_base64 = ciphertext_base64.replace("-", "+");
 		byte[] s = Base64Decoder.decodeToBytes(ciphertext_base64);
 		String decrypted = new String(decrypt(CIPHERMODEPADDING, skforAES, IV, s));
 		return decrypted;
