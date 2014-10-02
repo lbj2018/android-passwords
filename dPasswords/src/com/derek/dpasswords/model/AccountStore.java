@@ -73,6 +73,21 @@ public class AccountStore {
 		}
 	}
 
+	public void updateAccount(String accountId, String accountName, String username, String encryptedPassword) {
+		if (!isExistForAccountId(accountId)) {
+			// Account account = new Account();
+			// account.setAccountId(accountId);
+			// account.setAccountName(accountName);
+			// account.setUsername(username);
+			// account.setEncryptedPassword(encryptedPassword);
+			// account.setDateCreated(date);
+			//
+			// mDBHelper.insertAccount(account);
+			//
+			// mAccounts.add(0, account);
+		}
+	}
+
 	public User getUser() {
 		return user;
 	}

@@ -8,14 +8,13 @@
     <string name="title_activity_account_list">Account List</string>
     <string name="title_activity_set_password">Set Password</string>
     <string name="title_activity_add_account">Add Account</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_confirm_password">Confirm Password</string>
-    <string name="hint_account_name">Account Name</string>
-    <string name="hint_username">Username</string>
     <string name="title_menu_item_done">Done</string>
     <string name="title_menu_item_add">Add</string>
     <string name="title_menu_item_save">Save</string>
+    <string name="title_menu_item_cancel">Cancel</string>
     <string name="title_menu_item_sign_up">Sign up</string>
+    <string name="title_menu_item_edit">Edit</string>
+    <string name="hint_edit_text_account_name">Account Name</string>
     <string name="hint_edit_text_username">Username</string>
     <string name="hint_edit_text_password">Password</string>
     <string name="hint_edit_text_confirm_password">Confirm Password</string>

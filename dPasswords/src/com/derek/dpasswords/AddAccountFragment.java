@@ -1,5 +1,6 @@
 package com.derek.dpasswords;
 
+import java.util.Date;
 import java.util.UUID;
 
 import android.app.Fragment;
@@ -28,8 +29,6 @@ public class AddAccountFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
-		// mPassword = "369288";
 	}
 
 	@Override
@@ -65,16 +64,6 @@ public class AddAccountFragment extends Fragment {
 					String encryptedPassword = aes.encrypt(password);
 					new addAccountTask().execute(accoungId, accountName, username, encryptedPassword);
 				}
-				// try {
-				// byte[] encryptedPassword = AESUtil.encrypt(mPassword,
-				// password);
-				// AccountStore.get(getActivity()).addAccount(accountName,
-				// username, encryptedPassword);
-				//
-				// getActivity().finish();
-				// } catch (Exception e) {
-				// e.printStackTrace();
-				// }
 			}
 			return true;
 		}
@@ -121,7 +110,13 @@ public class AddAccountFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(String result) {
-
+			if (result == null || result.equals("0")) {
+				Toast.makeText(getActivity(), "Fai to add account", Toast.LENGTH_SHORT).show();
+			} else {
+				Date date = AccountStore.getDateFromDateString(result);
+				AccountStore.get(getActivity()).addAccount(accountId, accountName, username, password, date);
+				getActivity().finish();
+			}
 		}
 	}
 }

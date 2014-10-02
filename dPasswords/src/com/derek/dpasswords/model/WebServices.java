@@ -16,10 +16,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 public class WebServices {
-	private static final String BASE_URL = "http://121.199.0.190:8080/dPasswords/";
-
 	// private static final String BASE_URL =
-	// "http://192.168.232.149:8080/dPasswords/";
+	// "http://121.199.0.190:8080/dPasswords/";
+
+	private static final String BASE_URL = "http://192.168.232.117:8080/dPasswords/";
+
 	// private static final String BASE_URL =
 	// "http://192.168.1.2:8080/dPasswords/";
 
@@ -94,6 +95,40 @@ public class WebServices {
 		String result = null;
 
 		String uri = BASE_URL + "insertAccount";
+
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(uri);
+
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
+		nameValuePairs.add(new BasicNameValuePair("user_id", userId + ""));
+		nameValuePairs.add(new BasicNameValuePair("account_id", accountId));
+		nameValuePairs.add(new BasicNameValuePair("account_name", accountName));
+		nameValuePairs.add(new BasicNameValuePair("user_name", username));
+		nameValuePairs.add(new BasicNameValuePair("password", password));
+
+		try {
+			post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = client.execute(post);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				response.getEntity().writeTo(out);
+				out.close();
+				String responseString = out.toString();
+				result = responseString;
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public static String changeAccount(String accountId, String accountName, String username, String password,
+			int userId) {
+		String result = null;
+
+		String uri = BASE_URL + "changeAccount";
 
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(uri);

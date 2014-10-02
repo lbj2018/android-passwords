@@ -36,7 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
-	public long insertAccount(Account account) {
+	public void insertAccount(Account account) {
+		SQLiteDatabase db = getWritableDatabase();
 		ContentValues cv = new ContentValues();
 		cv.put(COLUMN_ACCOUNT_ID, account.getAccountId());
 		cv.put(COLUMN_ACCOUNT_NAME, account.getAccountName());
@@ -44,7 +45,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put(COLUMN_ACCOUNT_ENCRYPTED_PASSWORD, account.getEncryptedPassword());
 		cv.put(COLUMN_ACCOUNT_DATE_CREATED, account.getDateCreated().getTime());
 
-		return getWritableDatabase().insert(TABLE_ACCOUNT, null, cv);
+		db.insert(TABLE_ACCOUNT, null, cv);
+		db.close();
+	}
+
+	public void updateAccount(Account account) {
+		SQLiteDatabase db = getWritableDatabase();
+
+		db.close();
 	}
 
 	private AccountCursor queryAccountsForCursor() {
@@ -54,17 +62,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public ArrayList<Account> queryAccounts() {
+		SQLiteDatabase db = getReadableDatabase();
+
+		String selectQuery = "SELECTÊ * FROM " + TABLE_ACCOUNT;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
 		ArrayList<Account> accounts = new ArrayList<Account>();
+		if (cursor.moveToFirst()) {
+			do {
+				Account account = new Account();
+				account.setAccountId(cursor.getString(0));
+				account.setAccountName(cursor.getString(1));
+				account.setUsername(cursor.getString(2));
+				account.setEncryptedPassword(cursor.getString(3));
+				account.setDateCreated(new Date(cursor.getLong(4)));
 
-		AccountCursor cursor = queryAccountsForCursor();
-
-		do {
-			Account account = cursor.getAccount();
-			if (account != null)
 				accounts.add(account);
-		} while (cursor.moveToNext());
+			} while (cursor.moveToNext());
+		}
 
 		return accounts;
+
+		// ArrayList<Account> accounts = new ArrayList<Account>();
+		//
+		//
+		// AccountCursor cursor = queryAccountsForCursor();
+		//
+		// do {
+		// Account account = cursor.getAccount();
+		// if (account != null)
+		// accounts.add(account);
+		// } while (cursor.moveToNext());
+		//
+		// return accounts;
 	}
 
 	public static class AccountCursor extends CursorWrapper {
