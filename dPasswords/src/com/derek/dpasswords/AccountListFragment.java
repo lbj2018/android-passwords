@@ -24,7 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.derek.dpasswords.model.Account;
-import com.derek.dpasswords.model.AccountStore;
+import com.derek.dpasswords.model.DateFormatUtil;
+import com.derek.dpasswords.model.PasswordsStore;
 import com.derek.dpasswords.model.User;
 import com.derek.dpasswords.model.WebServices;
 
@@ -39,7 +40,7 @@ public class AccountListFragment extends Fragment {
 
 		new LoadAccountsTask().execute();
 
-		mAccounts = AccountStore.get(getActivity()).getAllAccounts();
+		mAccounts = PasswordsStore.get(getActivity()).getAccounts();
 	}
 
 	@Override
@@ -126,7 +127,7 @@ public class AccountListFragment extends Fragment {
 
 		@Override
 		protected String doInBackground(Void... params) {
-			User user = AccountStore.get(getActivity()).getUser();
+			User user = PasswordsStore.get(getActivity()).getUser();
 			if (user != null) {
 				return WebServices.loadAccounts(user.getUserId());
 			}
@@ -147,9 +148,9 @@ public class AccountListFragment extends Fragment {
 						String username = json.getString("user_name");
 						String password = json.getString("password");
 						String dateCreatedString = json.getString("date_created");
-						Date dateCreated = AccountStore.getDateFromDateString(dateCreatedString);
+						Date dateCreated = DateFormatUtil.getDateFromDateString(dateCreatedString);
 
-						AccountStore.get(getActivity()).addAccount(accountId, accountName, username, password,
+						PasswordsStore.get(getActivity()).addAccount(accountId, accountName, username, password,
 								dateCreated);
 					}
 					reloadListView();

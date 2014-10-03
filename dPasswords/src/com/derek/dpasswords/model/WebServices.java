@@ -19,7 +19,7 @@ public class WebServices {
 	// private static final String BASE_URL =
 	// "http://121.199.0.190:8080/dPasswords/";
 
-	private static final String BASE_URL = "http://192.168.232.117:8080/dPasswords/";
+	private static final String BASE_URL = "http://192.168.232.115:8080/dPasswords/";
 
 	// private static final String BASE_URL =
 	// "http://192.168.1.2:8080/dPasswords/";

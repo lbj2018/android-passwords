@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.derek.dpasswords.model.AccountStore;
+import com.derek.dpasswords.model.PasswordsStore;
 import com.derek.dpasswords.model.User;
 import com.derek.dpasswords.model.WebServices;
 
@@ -112,7 +112,7 @@ public class SignInFragment extends Fragment {
 					user.setUsername(this.username);
 					user.setPassword(this.password);
 
-					AccountStore.get(getActivity()).setUser(user);
+					PasswordsStore.get(getActivity()).setUser(user);
 
 					Intent intent = new Intent(getActivity(), AccountListActivity.class);
 					startActivity(intent);

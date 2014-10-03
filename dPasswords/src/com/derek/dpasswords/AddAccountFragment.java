@@ -16,7 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.derek.dpasswords.model.AES;
-import com.derek.dpasswords.model.AccountStore;
+import com.derek.dpasswords.model.DateFormatUtil;
+import com.derek.dpasswords.model.PasswordsStore;
 import com.derek.dpasswords.model.User;
 import com.derek.dpasswords.model.WebServices;
 
@@ -57,7 +58,7 @@ public class AddAccountFragment extends Fragment {
 
 			if (check(accountName, username, password)) {
 
-				User user = AccountStore.get(getActivity()).getUser();
+				User user = PasswordsStore.get(getActivity()).getUser();
 				if (user != null) {
 					String accoungId = UUID.randomUUID().toString();
 					AES aes = new AES(user.getPassword());
@@ -100,7 +101,7 @@ public class AddAccountFragment extends Fragment {
 				this.username = params[2];
 				this.password = params[3];
 
-				User user = AccountStore.get(getActivity()).getUser();
+				User user = PasswordsStore.get(getActivity()).getUser();
 
 				return WebServices.addAccount(this.accountId, this.accountName, this.username, this.password,
 						user.getUserId());
@@ -113,8 +114,8 @@ public class AddAccountFragment extends Fragment {
 			if (result == null || result.equals("0")) {
 				Toast.makeText(getActivity(), "Fai to add account", Toast.LENGTH_SHORT).show();
 			} else {
-				Date date = AccountStore.getDateFromDateString(result);
-				AccountStore.get(getActivity()).addAccount(accountId, accountName, username, password, date);
+				Date date = DateFormatUtil.getDateFromDateString(result);
+				PasswordsStore.get(getActivity()).addAccount(accountId, accountName, username, password, date);
 				getActivity().finish();
 			}
 		}

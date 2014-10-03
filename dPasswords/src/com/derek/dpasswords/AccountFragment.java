@@ -16,7 +16,8 @@ import android.widget.Toast;
 
 import com.derek.dpasswords.model.AES;
 import com.derek.dpasswords.model.Account;
-import com.derek.dpasswords.model.AccountStore;
+import com.derek.dpasswords.model.DateFormatUtil;
+import com.derek.dpasswords.model.PasswordsStore;
 import com.derek.dpasswords.model.User;
 import com.derek.dpasswords.model.WebServices;
 
@@ -35,7 +36,7 @@ public class AccountFragment extends Fragment {
 		isEditing = false;
 
 		String accountId = getArguments().getString("account_id");
-		this.account = AccountStore.get(getActivity()).getAccount(accountId);
+		this.account = PasswordsStore.get(getActivity()).getAccount(accountId);
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class AccountFragment extends Fragment {
 		this.accountNameEditText.setText(this.account.getAccountName());
 		this.usernameEditText.setText(this.account.getUsername());
 
-		User user = AccountStore.get(getActivity()).getUser();
+		User user = PasswordsStore.get(getActivity()).getUser();
 		if (user != null) {
 			String password;
 			try {
@@ -100,7 +101,7 @@ public class AccountFragment extends Fragment {
 
 			if (check(accountName, username, password)) {
 
-				User user = AccountStore.get(getActivity()).getUser();
+				User user = PasswordsStore.get(getActivity()).getUser();
 				if (user != null) {
 					String accoungId = account.getAccountId();
 					AES aes = new AES(user.getPassword());
@@ -148,7 +149,7 @@ public class AccountFragment extends Fragment {
 				this.username = params[2];
 				this.password = params[3];
 
-				User user = AccountStore.get(getActivity()).getUser();
+				User user = PasswordsStore.get(getActivity()).getUser();
 
 				return WebServices.changeAccount(this.accountId, this.accountName, this.username, this.password,
 						user.getUserId());
@@ -161,8 +162,8 @@ public class AccountFragment extends Fragment {
 			if (result == null || result.equals("0")) {
 				Toast.makeText(getActivity(), "Fai to change account", Toast.LENGTH_SHORT).show();
 			} else {
-				Date date = AccountStore.getDateFromDateString(result);
-				AccountStore.get(getActivity()).addAccount(accountId, accountName, username, password, date);
+				Date date = DateFormatUtil.getDateFromDateString(result);
+				PasswordsStore.get(getActivity()).addAccount(accountId, accountName, username, password, date);
 				getActivity().finish();
 			}
 		}
